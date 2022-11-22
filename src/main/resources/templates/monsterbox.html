@@ -7,9 +7,41 @@
 </head>
 
 <body>
-
   <font size="20">モンスター一覧</font><br>
 
+  <div th:if="${monster}">
+    <table border="1">
+      <thead>
+        <th>ID</th>
+        <th>モンスター名</th>
+        <th>HP</th>
+        <th>ATK</th>
+        <th>DEF</th>
+        <th>スキル1</th>
+        <th>スキル2</th>
+        <th>スキル3</th>
+        <th>スキル4</th>
+      </thead>
+      <!--クエリパラメータでIDを渡して購入処理を実行する．@{}はthymeleafのLink式というLinkを生成する際の書き方-->
+      <tr th:each="monster,stat:${monster}">
+        <td>[[${monster.id}]]</td>
+        <td>[[${monster.monsterName}]]</td>
+        <td>[[${monster.hp}]]</td>
+        <td>[[${monster.attack}]]</td>
+        <td>[[${monster.defence}]]</td>
+        <td>[[${monster.skill1}]]</td>
+        <td>[[${monster.skill2}]]</td>
+        <td>[[${monster.skill3}]]</td>
+        <td>[[${monster.skill4}]]</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+    <a href="/index.html">
+      <font size="5">メニューにもどる</font><br>
+    </a>
 </body>
+
 
 </html>

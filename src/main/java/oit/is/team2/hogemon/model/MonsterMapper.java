@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface MonsterMapper {
 
-  @Select("SELECT * from mosterbox;")
+  @Select("SELECT * from monsterbox;")
   ArrayList<Monster> selectAllMonsters();
 
 }
