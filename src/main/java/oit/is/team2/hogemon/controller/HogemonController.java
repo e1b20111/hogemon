@@ -31,6 +31,11 @@ public class HogemonController {
     return "battle.html";
   }
 
+  @GetMapping("result")
+  public String Result() {
+    return "result.html";
+  }
+
   @GetMapping("monsterbox")
   public String Monsterbox(ModelMap model) {
     ArrayList<Monster> monster = MMapper.selectAllMonsters();
