@@ -10,7 +10,9 @@ CREATE TABLE monsterbox (
     skill3 VARCHAR,
     skill4 VARCHAR
 );
+
 CREATE TABLE result (
-    monsterName VARCHAR NOT NULL PRIMARY KEY,
+    usermonsterName VARCHAR NOT NULL ,
+    enemymonsterName VARCHAR NOT NULL ,
     matchresult VARCHAR NOT NULL
 );
