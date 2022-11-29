@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import oit.is.team2.hogemon.model.Monster;
 import oit.is.team2.hogemon.model.MonsterMapper;
@@ -36,7 +36,6 @@ public class HogemonController {
     return "battle.html";
   }
 
-
   @GetMapping("monsterbox")
   public String Monsterbox(ModelMap model) {
     ArrayList<Monster> monster = MMapper.selectAllMonsters();
@@ -49,6 +48,12 @@ public class HogemonController {
     ArrayList<result> result = RMapper.selectAllresults();
     model.addAttribute("result", result);
     return "result.html";
+  }
+
+  @PostMapping("/battle")
+  public String battle_post(@RequestParam int number, ModelMap model) {
+    model.addAttribute("number", number);
+    return "battle.html";
   }
 
 }
