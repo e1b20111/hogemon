@@ -9,11 +9,17 @@
 <body>
   <font size="20">モンスターを選択</font><br>
 
-  <input type="number" name="モンスターナンバー" min = "1" max="10" value="1" />
+  <form action="/battle" method="post">
+    <input type="number" name="number" min="1" max="10" value="1" />
+    <input type="submit" value="詳細表示">
+  </form>
+  <div th:if="${number}">
+    [[${number}]]
+  </div>
   <br>
-    <a href="/index.html">
-      <font size="5">メニューにもどる</font><br>
-    </a>
+  <a href="/index.html">
+    <font size="5">メニューにもどる</font><br>
+  </a>
 </body>
 
 </html>
