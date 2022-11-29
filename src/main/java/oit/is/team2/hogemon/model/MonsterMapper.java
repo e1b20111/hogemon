@@ -13,4 +13,7 @@ public interface MonsterMapper {
   @Select("SELECT * from monsterbox;")
   ArrayList<Monster> selectAllMonsters();
 
+  @Select("SELECT * from monsterbox where id = #{id};")
+  Monster selectMonstersById(int id);
+
 }

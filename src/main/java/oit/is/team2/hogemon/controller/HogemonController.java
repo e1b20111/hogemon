@@ -52,7 +52,8 @@ public class HogemonController {
 
   @PostMapping("/battle")
   public String battle_post(@RequestParam int number, ModelMap model) {
-    model.addAttribute("number", number);
+    Monster monster = MMapper.selectMonstersById(number);
+    model.addAttribute("monster", monster);
     return "battle.html";
   }
 
