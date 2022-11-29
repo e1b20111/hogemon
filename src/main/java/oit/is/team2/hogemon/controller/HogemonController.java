@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import oit.is.team2.hogemon.model.Monster;
 import oit.is.team2.hogemon.model.MonsterMapper;
+import oit.is.team2.hogemon.model.result;
+import oit.is.team2.hogemon.model.resultMapper;
 
 /**
  * /sample3へのリクエストを扱うクラス authenticateの設定をしていれば， /sample3へのアクセスはすべて認証が必要になる
@@ -26,15 +28,14 @@ public class HogemonController {
   @Autowired
   MonsterMapper MMapper;
 
+  @Autowired
+  resultMapper RMapper;
+
   @GetMapping("battle")
   public String Battle() {
     return "battle.html";
   }
 
-  @GetMapping("result")
-  public String Result() {
-    return "result.html";
-  }
 
   @GetMapping("monsterbox")
   public String Monsterbox(ModelMap model) {
@@ -42,4 +43,12 @@ public class HogemonController {
     model.addAttribute("monster", monster);
     return "monsterbox.html";
   }
+
+  @GetMapping("result")
+  public String result(ModelMap model) {
+    ArrayList<result> result = RMapper.selectAllresults();
+    model.addAttribute("result", result);
+    return "result.html";
+  }
+
 }

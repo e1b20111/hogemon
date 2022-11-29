@@ -14,7 +14,14 @@
       <th>ENEMY</th>
       <th>結果</th>
     </thead>
-  </table>>
+
+    <tr th:each="result,stat:${result}">
+      <td>[[${result.usermonsterName}]]</td>
+      <td>[[${result.enemymonsterName}]]</td>
+      <td>[[${result.matchresult}]]</td>
+    </tr>
+
+  </table>
   <br>
   <a href="/index.html">
     <font size="5">メニューにもどる</font><br>
