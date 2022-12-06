@@ -46,7 +46,7 @@
   <font size="20">エントリー</font><br>
   <div th:if="${monster}">
     <tr th:each="user,stat:${user}">
-      <a th:href="@{/battle/match(monsterId=${monster.id},userId=${user.id})}"> [[${user.userName}]] </a>
+      <a th:href="@{/match(monsterId=${monster.id},userId=${user.id})}"> [[${user.userName}]] </a>
       <br>
     </tr>
   </div>
