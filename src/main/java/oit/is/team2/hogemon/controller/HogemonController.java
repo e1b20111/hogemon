@@ -18,6 +18,8 @@ import oit.is.team2.hogemon.model.Monster;
 import oit.is.team2.hogemon.model.MonsterMapper;
 import oit.is.team2.hogemon.model.result;
 import oit.is.team2.hogemon.model.resultMapper;
+import oit.is.team2.hogemon.model.User;
+import oit.is.team2.hogemon.model.UserMapper;
 
 /**
  * /sample3へのリクエストを扱うクラス authenticateの設定をしていれば， /sample3へのアクセスはすべて認証が必要になる
@@ -31,8 +33,13 @@ public class HogemonController {
   @Autowired
   resultMapper RMapper;
 
+  @Autowired
+  UserMapper UMapper;
+
   @GetMapping("battle")
-  public String Battle() {
+  public String Battle(ModelMap model) {
+    ArrayList<User> user = UMapper.selectAllUsers();
+    model.addAttribute("user", user);
     return "battle.html";
   }
 
@@ -53,6 +60,8 @@ public class HogemonController {
   @PostMapping("/battle")
   public String battle_post(@RequestParam int number, ModelMap model) {
     Monster monster = MMapper.selectMonsterById(number);
+    ArrayList<User> user = UMapper.selectAllUsers();
+    model.addAttribute("user", user);
     model.addAttribute("monster", monster);
     return "battle.html";
   }
