@@ -16,3 +16,8 @@ CREATE TABLE result (
     enemymonsterName VARCHAR NOT NULL ,
     matchresult VARCHAR NOT NULL
 );
+
+CREATE TABLE userInfo (
+    id IDENTITY,
+    userName VARCHAR NOT NULL
+);

@@ -2,3 +2,6 @@ INSERT INTO monsterbox (monstername,hp,attack,defence,skill1,skill2,skill3,skill
 INSERT INTO monsterbox (monstername) VALUES ('ドラゴン');
 
 INSERT INTO result (usermonsterName,enemymonsterName,matchresult) VALUES ('スライム','ドラゴン','win');
+
+INSERT INTO userInfo (userName) VALUES ('CPU');
+INSERT INTO userInfo (userName) VALUES ('ジャクソン');
