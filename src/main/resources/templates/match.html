@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Hogemon</title>
+</head>
+
+<body>
+  <font size="20">戦闘画面</font><br>
+<div th:if="${myuser}">
+  <div th:if="${enemyuser}">
+    [[${myuser}]]VS[[${enemyuser.userName}]]
+  </div>
+</div>
+
+  <div th:if="${mymonster}">
+    <table border="1">
+      <thead>
+        <th>モンスター名</th>
+        <th>HP</th>
+        <th>ATK</th>
+        <th>DEF</th>
+      </thead>
+      <tr th:each="mymonster,stat:${mymonster}">
+        <td>[[${mymonster.monsterName}]]</td>
+        <td>[[${mymonster.hp}]]</td>
+        <td>[[${mymonster.attack}]]</td>
+        <td>[[${mymonster.defence}]]</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+  <a href="/index.html">
+    <font size="5">メニューにもどる</font><br>
+  </a>
+</body>
+
+</html>
