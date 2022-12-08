@@ -1,6 +1,6 @@
 package oit.is.team2.hogemon.controller;
 
-import java.security.Principal;
+//import java.security.Principal;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class HogemonController {
 
   // @GetMapping("match")
   // public String Match() {
-  //   return "match.html";
+  // return "match.html";
   // }
 
   @GetMapping("monsterbox")
@@ -70,15 +70,16 @@ public class HogemonController {
     model.addAttribute("monster", monster);
     return "battle.html";
   }
-// Principal prin
+
+  // Principal prin
   @GetMapping("match")
   public String match_post(@RequestParam Integer monsterId, @RequestParam Integer userId, ModelMap model) {
-   // String myUser = prin.getName(); // ログインユーザ情報
+    // String myUser = prin.getName(); // ログインユーザ情報
     Monster mymonster = MMapper.selectMonsterById(monsterId);
     User enemyUser = UMapper.selectUserById(userId);
     model.addAttribute("enemyuser", enemyUser);
     model.addAttribute("mymonster", mymonster);
-   // model.addAttribute("myuser", myUser);
+    // model.addAttribute("myuser", myUser);
     return "match.html";
   }
 
