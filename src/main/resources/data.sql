@@ -5,3 +5,5 @@ INSERT INTO result (usermonsterName,enemymonsterName,matchresult) VALUES ('ス�
 
 INSERT INTO userInfo (userName) VALUES ('CPU');
 INSERT INTO userInfo (userName) VALUES ('ジャクソン');
+
+INSERT INTO matchInfo (mymonsterid,enemymonsterid,mymonsterhp,enemymonsterhp,skill,damege) VALUES (1,2,10,100,'たいあたり',5);

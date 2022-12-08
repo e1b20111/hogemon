@@ -21,3 +21,12 @@ CREATE TABLE userInfo (
     id IDENTITY,
     userName VARCHAR NOT NULL
 );
+
+CREATE TABLE matchInfo (
+    mymonsterid INT,
+    mymonsterhp INT,
+    skill VARCHAR,
+    enemymonsterid INT,
+    enemymonsterhp INT,
+    damege INT
+);
