@@ -8,16 +8,17 @@
 
 <body>
   <font size="20">戦闘画面</font><br>
-<div th:if="${myuser}">
-  <div th:if="${enemyuser}">
-    [[${myuser}]]VS[[${enemyuser.userName}]]
+
+  <div th:if="${myuser}">
+    <div th:if="${enemyuser}">
+      [[${myuser}]] VS [[${enemyuser.userName}]]
+    </div>
   </div>
-</div>
 
   <div th:if="${mymonster}">
     <table border="1">
       <thead>
-        <th>モンスター名</th>
+        <th>手持ちモンスター名</th>
         <th>HP</th>
         <th>ATK</th>
         <th>DEF</th>
@@ -29,6 +30,17 @@
         <td>[[${mymonster.defence}]]</td>
       </tr>
       </tbody>
+    </table>
+  </div>
+
+  <div th:if="${mymonster}">
+    <table border="1">
+      <tr th:each="mymonster,stat:${mymonster}">
+        <td><a th:href="@{/wait(skillName=${mymonster.skill1})}">[[${mymonster.skill1}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill2})}">[[${mymonster.skill2}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill3})}">[[${mymonster.skill3}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill4})}">[[${mymonster.skill4}]]</a></td>
+      </tr>
     </table>
   </div>
 
