@@ -12,7 +12,8 @@ CREATE TABLE monsterbox (
 );
 
 CREATE TABLE result (
-    usermonsterName VARCHAR NOT NULL ,
+    id IDENTITY,
+    mymonsterName VARCHAR NOT NULL ,
     enemymonsterName VARCHAR NOT NULL ,
     matchresult VARCHAR NOT NULL
 );
@@ -23,10 +24,16 @@ CREATE TABLE userInfo (
 );
 
 CREATE TABLE matchInfo (
+    id IDENTITY,
     mymonsterid INT,
     mymonsterhp INT,
     skill VARCHAR,
     enemymonsterid INT,
     enemymonsterhp INT,
-    damege INT
+    damage INT
+);
+
+CREATE TABLE skill (
+    skillName VARCHAR,
+    damage INT
 );
