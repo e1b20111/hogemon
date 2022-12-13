@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Hogemon</title>
+</head>
+
+<body>
+  <font size="20">戦闘画面</font><br>
+
+  <div th:if="${mymonster}">
+    <div th:if="${enemymonster}">
+      [[${mymonster.monsterName}]] VS [[${enemymonster.monsterName}]]
+    </div>
+  </div>
+
+  <font size="5">途中経過</font><br>
+  <div th:if="${matchinfo}">
+    <div th:each="matchinfo,stat:${matchinfo}">
+      <td>[[${mymonster.monsterName}]]の[[${matchinfo.skill}]]
+        [[${enemymonster.monsterName}]]に[[${matchinfo.damage}]]のダメージ</td>
+    </div>
+  </div>
+
+  <div th:if="${matchinfo}">
+    <table border="1">
+      <thead>
+        <th>手持ちモンスター名</th>
+        <th>HP</th>
+        <th>ATK</th>
+        <th>DEF</th>
+      </thead>
+      <td>[[${mymonster.monsterName}]]</td>
+      <td>[[${mymonsterhp}]]</td>
+      <td>[[${mymonster.attack}]]</td>
+      <td>[[${mymonster.defence}]]</td>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 値の変化を見るための敵モンスター情報 -->
+  <div th:if="${matchinfo}">
+    <table border="1">
+      <thead>
+        <th>敵モンスター名</th>
+        <th>HP</th>
+        <th>ATK</th>
+        <th>DEF</th>
+      </thead>
+      <td>[[${enemymonster.monsterName}]]</td>
+      <td>[[${enemymonsterhp}]]</td>
+      <td>[[${enemymonster.attack}]]</td>
+      <td>[[${enemymonster.defence}]]</td>
+      </tbody>
+    </table>
+  </div>
+
+  <div th:if="${mymonster}">
+    <table border="1">
+      <tr th:each="mymonster,stat:${mymonster}">
+        <td><a th:href="@{/wait(skillName=${mymonster.skill1})}">[[${mymonster.skill1}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill2})}">[[${mymonster.skill2}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill3})}">[[${mymonster.skill3}]]</a></td>
+        <td><a th:href="@{/wait(skillName=${mymonster.skill4})}">[[${mymonster.skill4}]]</a></td>
+      </tr>
+    </table>
+  </div>
+
+
+</body>
+
+</html>
