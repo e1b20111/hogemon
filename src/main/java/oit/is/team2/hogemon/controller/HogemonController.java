@@ -20,9 +20,10 @@ import oit.is.team2.hogemon.model.result;
 import oit.is.team2.hogemon.model.resultMapper;
 import oit.is.team2.hogemon.model.User;
 import oit.is.team2.hogemon.model.UserMapper;
-//import oit.is.team2.hogemon.model.Match;
+import oit.is.team2.hogemon.model.Skill;
+import oit.is.team2.hogemon.model.SkillMapper;
+import oit.is.team2.hogemon.model.Match;
 import oit.is.team2.hogemon.model.MatchMapper;
-
 
 /**
  * /sample3へのリクエストを扱うクラス authenticateの設定をしていれば， /sample3へのアクセスはすべて認証が必要になる
@@ -32,13 +33,12 @@ public class HogemonController {
 
   @Autowired
   MonsterMapper MMapper;
-
   @Autowired
   resultMapper RMapper;
-
   @Autowired
   UserMapper UMapper;
-
+  @Autowired
+  SkillMapper SMapper;
   @Autowired
   MatchMapper MaMapper;
 
@@ -77,7 +77,6 @@ public class HogemonController {
     return "battle.html";
   }
 
-  // Principal prin
   @GetMapping("match")
   public String match_post(@RequestParam Integer monsterId, @RequestParam Integer userId, ModelMap model,
       Principal prin) {
@@ -96,6 +95,49 @@ public class HogemonController {
     model.addAttribute("myuser", myUser);
     model.addAttribute("enemyuser", enemyUser);
     return "match.html";
+  }
+
+  @GetMapping("wait")
+  public String wait(@RequestParam String skillName, ModelMap model) {
+
+    // Mapperが多くてややこしいが、要はmatchinfoのid=1での二つ(myとenemy)のmonster情報を呼び出してくる処理
+    // matchinfoとmonsterの区別をするために別の変数とする。
+    // monster情報のため、match中には変更しない。
+    Monster mymonster = MMapper.selectMonsterById(MaMapper.selectFirstMyMonsterId());
+    Monster enemymonster = MMapper.selectMonsterById(MaMapper.selectFirstEnemyMonsterId());
+    model.addAttribute("mymonster", mymonster);
+    model.addAttribute("enemymonster", enemymonster);
+
+    // ダメージ関連処理（現在はskillごとに決められたダメージ)
+    // requestparamで送られてきたskillnameに対応したskill
+    Skill skill = SMapper.selectSkillByName(skillName);
+    // {skill}やステータスに応じたダメージ処理
+
+    // 最新のデータ取得
+    Match matchinfo = MaMapper.selectLastData();
+    // 初回のみmatchinfoのid=1のデータを更新する。2回目以降はinsertしていく。
+    if (MaMapper.selectFirstSkill() == null) {
+      MaMapper.updateFirstDamage(skillName, skill.getDamage());
+    } else {
+      // ダメージとスキル値とHPの更新と追加
+      matchinfo.setDamage(skill.getDamage());
+      matchinfo.setEnemymonsterhp(matchinfo.getEnemymonsterhp() - skill.getDamage());
+      matchinfo.setSkill(skillName);
+      MaMapper.insertMatch(matchinfo);
+    }
+    matchinfo = MaMapper.selectLastData();
+
+    // データ更新ないしは追加後、試合データ読み込み
+    ArrayList<Match> matches = MaMapper.selectAllMatches();
+    model.addAttribute("matchinfo", matches);
+    model.addAttribute("mymonsterhp", matchinfo.getMymonsterhp());
+    model.addAttribute("enemymonsterhp", matchinfo.getEnemymonsterhp());
+    model.addAttribute("skill", skill);
+
+    if (matchinfo.getEnemymonsterhp() == 0) {
+      model.addAttribute("matchinfo", matches);
+    }
+    return "wait.html";
   }
 
 }
