@@ -2,6 +2,7 @@ package oit.is.team2.hogemon.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,7 +87,7 @@ public class HogemonController {
     User p2User = UMapper.selectUserById(userId);
 
     if (MaMapper.selectFirstP1MonsterId() == 0) {
-      MaMapper.updateFirstPlayer(monsterId, p1monster.getHp());
+      MaMapper.updateFirstPlayer(p1User, p2User.getUsername(), monsterId, p1monster.getHp());
     } else {
       MaMapper.updateSecondPlayer(monsterId, p1monster.getHp());
     }
@@ -110,7 +111,7 @@ public class HogemonController {
 
     // ダメージ関連処理（現在はskillごとに決められたダメージ)
     // requestparamで送られてきたskillnameに対応したskill
-    Skill skill = SMapper.selectSkillByname(skillname);
+    Skill skill = SMapper.selectSkillByName(skillname);
     // {skill}やステータスに応じたダメージ処理
 
     // 最新のデータ取得
@@ -124,6 +125,10 @@ public class HogemonController {
       matchinfo.setP2monsterhp(matchinfo.getP2monsterhp() - skill.getDamage());
       matchinfo.setSkill(skillname);
       MaMapper.insertMatch(matchinfo);
+    }
+    // CPUとの対戦時
+    if (matchinfo.getP2name().equals("CPU")) {
+      battlCPU();
     }
     matchinfo = MaMapper.selectLastData();
 
@@ -157,6 +162,33 @@ public class HogemonController {
     model.addAttribute("skill", skill);
 
     return "wait.html";
+  }
+
+  public void battlCPU() {
+    Match lastdata = MaMapper.selectLastData();
+    Monster CPUmonster = MMapper.selectMonsterById(lastdata.getP2monsterid());
+    Skill skill = new Skill();
+    // CPU側の処理
+    Random rand = new Random();
+    int num = rand.nextInt(4);
+    switch (num) {
+      case 0:
+        skill = SMapper.selectSkillByName(CPUmonster.getSkill1());
+        break;
+      case 1:
+        skill = SMapper.selectSkillByName(CPUmonster.getSkill2());
+        break;
+      case 2:
+        skill = SMapper.selectSkillByName(CPUmonster.getSkill3());
+        break;
+      case 3:
+        skill = SMapper.selectSkillByName(CPUmonster.getSkill4());
+        break;
+    }
+    lastdata.setP1monsterhp(lastdata.getP1monsterhp() - skill.getDamage());
+    lastdata.setDamage(skill.getDamage());
+    lastdata.setSkill(skill.getSkillname());
+    MaMapper.insertMatch(lastdata);
   }
 
 }

@@ -29,8 +29,8 @@ public interface MatchMapper {
 
   // 強制的に全ての列の値を変更するため、初期値入力にのみ使う
   // where id = 1で不具合発生, 修正方法分からず
-  @Update("UPDATE matchInfo SET p1monsterid =#{p1monsterid}, p1monsterhp=#{p1monsterhp};")
-  void updateFirstPlayer(int p1monsterid, int p1monsterhp);
+  @Update("UPDATE matchInfo SET p1name = #{p1}, p2name = #{p2}, p1monsterid =#{p1monsterid}, p1monsterhp=#{p1monsterhp};")
+  void updateFirstPlayer(String p1, String p2, int p1monsterid, int p1monsterhp);
 
   @Update("UPDATE matchInfo SET p2monsterid =#{p1monsterid}, p2monsterhp=#{p1monsterhp};")
   void updateSecondPlayer(int p1monsterid, int p1monsterhp);
@@ -45,7 +45,7 @@ public interface MatchMapper {
   String selectFirstSkill();
 
   // 試合情報が格納されたmatch型のデータを追加する。なお、matchidは自動生成され、自動的に振り分けられるようにする。
-  @Insert("INSERT INTO matchInfo (p1monsterid,p1monsterhp,skill, p2monsterid,p2monsterhp, damage) VALUES (#{p1monsterid},#{p1monsterhp},#{skill},#{p2monsterid},#{p2monsterhp},#{damage});")
+  @Insert("INSERT INTO matchInfo (p1name,p1monsterid,p1monsterhp,skill, p2name, p2monsterid,p2monsterhp, damage) VALUES (#{p1name}, #{p1monsterid},#{p1monsterhp},#{skill},#{p2name}, #{p2monsterid},#{p2monsterhp},#{damage});")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertMatch(Match match);
 
