@@ -25,7 +25,7 @@
       <!--クエリパラメータでIDを渡して購入処理を実行する．@{}はthymeleafのLink式というLinkを生成する際の書き方-->
       <tr th:each="monster,stat:${monster}">
         <td>[[${monster.id}]]</td>
-        <td>[[${monster.monsterName}]]</td>
+        <td>[[${monster.monstername}]]</td>
         <td>[[${monster.hp}]]</td>
         <td>[[${monster.attack}]]</td>
         <td>[[${monster.defence}]]</td>

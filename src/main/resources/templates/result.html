@@ -11,13 +11,13 @@
   <table border="1">
     <thead>
       <th>YOU</th>
-      <th>ENEMY</th>
+      <th>p2</th>
       <th>結果</th>
     </thead>
 
     <tr th:each="result,stat:${result}">
-      <td>[[${result.mymonsterName}]]</td>
-      <td>[[${result.enemymonsterName}]]</td>
+      <td>[[${result.p1monstername}]]</td>
+      <td>[[${result.p2monstername}]]</td>
       <td>[[${result.matchresult}]]</td>
     </tr>
 

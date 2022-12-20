@@ -1,15 +1,15 @@
 package oit.is.team2.hogemon.model;
 
 public class Skill {
-  String skillName;
+  String skillname;
   int damage;
 
-  public String getSkillName() {
-    return skillName;
+  public String getSkillname() {
+    return skillname;
   }
 
-  public void setSkillName(String skillName) {
-    this.skillName = skillName;
+  public void setSkillname(String skillname) {
+    this.skillname = skillname;
   }
 
   public int getDamage() {

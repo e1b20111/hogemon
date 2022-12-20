@@ -2,52 +2,83 @@ package oit.is.team2.hogemon.model;
 
 public class Match {
   int id;
-  int mymonsterid;
-  int mymonsterhp;
+  String p1name;
+  int p1monsterid;
+  int p1monsterhp;
   String skill;
-  int enemymonsterid;
-  int enemymonsterhp;
+  String p2name;
+  int p2monsterid;
+  int p2monsterhp;
   int damage;
 
   public int getId() {
     return id;
   }
+
   public void setId(int id) {
     this.id = id;
   }
-  public int getMymonsterid() {
-    return mymonsterid;
+
+  public String getP1name() {
+    return p1name;
   }
-  public void setMymonsterid(int mymonsterid) {
-    this.mymonsterid = mymonsterid;
+
+  public void setP1name(String p1name) {
+    this.p1name = p1name;
   }
-  public int getMymonsterhp() {
-    return mymonsterhp;
+
+  public int getP1monsterid() {
+    return p1monsterid;
   }
-  public void setMymonsterhp(int mymonsterhp) {
-    this.mymonsterhp = mymonsterhp;
+
+  public void setP1monsterid(int p1monsterid) {
+    this.p1monsterid = p1monsterid;
   }
+
+  public int getP1monsterhp() {
+    return p1monsterhp;
+  }
+
+  public void setP1monsterhp(int p1monsterhp) {
+    this.p1monsterhp = p1monsterhp;
+  }
+
   public String getSkill() {
     return skill;
   }
+
   public void setSkill(String skill) {
     this.skill = skill;
   }
-  public int getEnemymonsterid() {
-    return enemymonsterid;
+
+  public String getP2name() {
+    return p2name;
   }
-  public void setEnemymonsterid(int enemymonsterid) {
-    this.enemymonsterid = enemymonsterid;
+
+  public void setP2name(String p2name) {
+    this.p2name = p2name;
   }
-  public int getEnemymonsterhp() {
-    return enemymonsterhp;
+
+  public int getP2monsterid() {
+    return p2monsterid;
   }
-  public void setEnemymonsterhp(int enemymonsterhp) {
-    this.enemymonsterhp = enemymonsterhp;
+
+  public void setP2monsterid(int p2monsterid) {
+    this.p2monsterid = p2monsterid;
   }
+
+  public int getP2monsterhp() {
+    return p2monsterhp;
+  }
+
+  public void setP2monsterhp(int p2monsterhp) {
+    this.p2monsterhp = p2monsterhp;
+  }
+
   public int getDamage() {
     return damage;
   }
+
   public void setDamage(int damage) {
     this.damage = damage;
   }
