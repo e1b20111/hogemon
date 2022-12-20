@@ -12,7 +12,6 @@ CREATE TABLE monsterbox (
 );
 
 CREATE TABLE result (
-    id IDENTITY,
     mymonsterName VARCHAR NOT NULL ,
     enemymonsterName VARCHAR NOT NULL ,
     matchresult VARCHAR NOT NULL

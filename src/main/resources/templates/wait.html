@@ -7,7 +7,11 @@
 </head>
 
 <body>
-  <font size="20">戦闘画面</font><br>
+  <div th:if="${matchinfo}">
+    <font size="20">戦闘画面</font><br>
+  </div>
+
+
 
   <div th:if="${mymonster}">
     <div th:if="${enemymonster}">
@@ -15,8 +19,14 @@
     </div>
   </div>
 
-  <font size="5">途中経過</font><br>
+  <div th:if="${gameend}">
+    <font size="10">試合終了</font><br>
+    <font size="20">[[${gameend.mymonsterName}]] [[${gameend.matchresult}]]</font><br>
+  </div>
+
+
   <div th:if="${matchinfo}">
+    <font size="5">途中経過</font><br>
     <div th:each="matchinfo,stat:${matchinfo}">
       <td>[[${mymonster.monsterName}]]の[[${matchinfo.skill}]]
         [[${enemymonster.monsterName}]]に[[${matchinfo.damage}]]のダメージ</td>
@@ -56,7 +66,7 @@
     </table>
   </div>
 
-  <div th:if="${mymonster}">
+  <div th:if="${matchinfo}">
     <table border="1">
       <tr th:each="mymonster,stat:${mymonster}">
         <td><a th:href="@{/wait(skillName=${mymonster.skill1})}">[[${mymonster.skill1}]]</a></td>
@@ -65,6 +75,12 @@
         <td><a th:href="@{/wait(skillName=${mymonster.skill4})}">[[${mymonster.skill4}]]</a></td>
       </tr>
     </table>
+  </div>
+
+  <div th:if="${gameend}">
+    <a href="/index.html">
+      <font size="5">メニューにもどる</font><br>
+    </a>
   </div>
 
 

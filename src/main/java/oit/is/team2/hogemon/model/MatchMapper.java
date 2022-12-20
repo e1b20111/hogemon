@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Delete;
 
 @Mapper
 public interface MatchMapper {
@@ -52,5 +53,12 @@ public interface MatchMapper {
   // データをidの降順に並び替え、1行だけ取り出す。hp情報をMatch型に格納し、他の情報はコントローラーの方で埋める。
   @Select("SELECT * from matchInfo order by id DESC LIMIT 1;")
   Match selectLastData();
+
+  @Delete("DELETE FROM matchinfo;")
+  boolean deleteAll();
+
+  // とりあえず動作させるためのプログラム
+  @Insert("INSERT INTO matchInfo (id,mymonsterid,enemymonsterid,mymonsterhp,enemymonsterhp,damage) VALUES (1,0,2,0,20,0);")
+  void insertTest();
 
 }

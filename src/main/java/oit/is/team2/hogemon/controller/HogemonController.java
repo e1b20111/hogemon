@@ -127,6 +127,28 @@ public class HogemonController {
     }
     matchinfo = MaMapper.selectLastData();
 
+    // 試合結果の処理 変更する必要あり
+    result result = new result();
+    result.setMymonsterName(mymonster.getMonsterName());
+    result.setEnemymonsterName(enemymonster.getMonsterName());
+    if (matchinfo.getMymonsterhp() <= 0) {
+      result.setMatchresult("LOSE...");
+      RMapper.insertResult(result);
+      model.addAttribute("gameend", result);
+      MaMapper.deleteAll();
+      MaMapper.insertTest();
+      return "wait.html";
+    }
+
+    if (matchinfo.getEnemymonsterhp() <= 0) {
+      result.setMatchresult("Win!!");
+      RMapper.insertResult(result);
+      model.addAttribute("gameend", result);
+      MaMapper.deleteAll();
+      MaMapper.insertTest();
+      return "wait.html";
+    }
+
     // データ更新ないしは追加後、試合データ読み込み
     ArrayList<Match> matches = MaMapper.selectAllMatches();
     model.addAttribute("matchinfo", matches);
@@ -134,9 +156,6 @@ public class HogemonController {
     model.addAttribute("enemymonsterhp", matchinfo.getEnemymonsterhp());
     model.addAttribute("skill", skill);
 
-    if (matchinfo.getEnemymonsterhp() == 0) {
-      model.addAttribute("matchinfo", matches);
-    }
     return "wait.html";
   }
 
