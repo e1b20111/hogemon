@@ -14,6 +14,6 @@ public interface SkillMapper {
   ArrayList<Skill> selectAllSkills();
 
   @Select("SELECT * from skill where skillname =#{skillname};")
-  Skill selectSkillByname(String skillname);
+  Skill selectSkillByName(String skillname);
 
 }
