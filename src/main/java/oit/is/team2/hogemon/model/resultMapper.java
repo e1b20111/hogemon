@@ -16,7 +16,7 @@ public interface resultMapper {
   @Select("SELECT * from result DESC LIMIT 1;")
   result selectLastresult();
 
-  @Insert("INSERT INTO result (mymonstername,enemymonstername,matchresult) VALUES (#{mymonsterName},#{enemymonsterName},#{matchresult});")
+  @Insert("INSERT INTO result (p1monstername,p2monstername,matchresult) VALUES (#{p1monstername},#{p2monstername},#{matchresult});")
   void insertResult(result result);
 
 }

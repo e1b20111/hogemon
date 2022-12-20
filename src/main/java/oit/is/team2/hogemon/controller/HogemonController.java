@@ -81,57 +81,57 @@ public class HogemonController {
   public String match_post(@RequestParam Integer monsterId, @RequestParam Integer userId, ModelMap model,
       Principal prin) {
 
-    String myUser = prin.getName(); // ログインユーザ情報
-    Monster mymonster = MMapper.selectMonsterById(monsterId);
-    User enemyUser = UMapper.selectUserById(userId);
+    String p1User = prin.getName(); // ログインユーザ情報
+    Monster p1monster = MMapper.selectMonsterById(monsterId);
+    User p2User = UMapper.selectUserById(userId);
 
-    if (MaMapper.selectFirstMyMonsterId() == 0) {
-      MaMapper.updateFirstPlayer(monsterId, mymonster.getHp());
+    if (MaMapper.selectFirstP1MonsterId() == 0) {
+      MaMapper.updateFirstPlayer(monsterId, p1monster.getHp());
     } else {
-      MaMapper.updateSecondPlayer(monsterId, mymonster.getHp());
+      MaMapper.updateSecondPlayer(monsterId, p1monster.getHp());
     }
-    model.addAttribute("enemyuser", enemyUser);
-    model.addAttribute("mymonster", mymonster);
-    model.addAttribute("myuser", myUser);
-    model.addAttribute("enemyuser", enemyUser);
+    model.addAttribute("p2user", p2User);
+    model.addAttribute("p1monster", p1monster);
+    model.addAttribute("p1user", p1User);
+    model.addAttribute("p2user", p2User);
     return "match.html";
   }
 
   @GetMapping("wait")
-  public String wait(@RequestParam String skillName, ModelMap model) {
+  public String wait(@RequestParam String skillname, ModelMap model) {
 
-    // Mapperが多くてややこしいが、要はmatchinfoのid=1での二つ(myとenemy)のmonster情報を呼び出してくる処理
+    // Mapperが多くてややこしいが、要はmatchinfoのid=1での二つ(p1とp2)のmonster情報を呼び出してくる処理
     // matchinfoとmonsterの区別をするために別の変数とする。
     // monster情報のため、match中には変更しない。
-    Monster mymonster = MMapper.selectMonsterById(MaMapper.selectFirstMyMonsterId());
-    Monster enemymonster = MMapper.selectMonsterById(MaMapper.selectFirstEnemyMonsterId());
-    model.addAttribute("mymonster", mymonster);
-    model.addAttribute("enemymonster", enemymonster);
+    Monster p1monster = MMapper.selectMonsterById(MaMapper.selectFirstP1MonsterId());
+    Monster p2monster = MMapper.selectMonsterById(MaMapper.selectFirstP2MonsterId());
+    model.addAttribute("p1monster", p1monster);
+    model.addAttribute("p2monster", p2monster);
 
     // ダメージ関連処理（現在はskillごとに決められたダメージ)
     // requestparamで送られてきたskillnameに対応したskill
-    Skill skill = SMapper.selectSkillByName(skillName);
+    Skill skill = SMapper.selectSkillByname(skillname);
     // {skill}やステータスに応じたダメージ処理
 
     // 最新のデータ取得
     Match matchinfo = MaMapper.selectLastData();
     // 初回のみmatchinfoのid=1のデータを更新する。2回目以降はinsertしていく。
     if (MaMapper.selectFirstSkill() == null) {
-      MaMapper.updateFirstDamage(skillName, skill.getDamage());
+      MaMapper.updateFirstDamage(skillname, skill.getDamage());
     } else {
       // ダメージとスキル値とHPの更新と追加
       matchinfo.setDamage(skill.getDamage());
-      matchinfo.setEnemymonsterhp(matchinfo.getEnemymonsterhp() - skill.getDamage());
-      matchinfo.setSkill(skillName);
+      matchinfo.setP2monsterhp(matchinfo.getP2monsterhp() - skill.getDamage());
+      matchinfo.setSkill(skillname);
       MaMapper.insertMatch(matchinfo);
     }
     matchinfo = MaMapper.selectLastData();
 
     // 試合結果の処理 変更する必要あり
     result result = new result();
-    result.setMymonsterName(mymonster.getMonsterName());
-    result.setEnemymonsterName(enemymonster.getMonsterName());
-    if (matchinfo.getMymonsterhp() <= 0) {
+    result.setP1monstername(p1monster.getMonstername());
+    result.setP2monstername(p2monster.getMonstername());
+    if (matchinfo.getP1monsterhp() <= 0) {
       result.setMatchresult("LOSE...");
       RMapper.insertResult(result);
       model.addAttribute("gameend", result);
@@ -140,7 +140,7 @@ public class HogemonController {
       return "wait.html";
     }
 
-    if (matchinfo.getEnemymonsterhp() <= 0) {
+    if (matchinfo.getP2monsterhp() <= 0) {
       result.setMatchresult("Win!!");
       RMapper.insertResult(result);
       model.addAttribute("gameend", result);
@@ -152,8 +152,8 @@ public class HogemonController {
     // データ更新ないしは追加後、試合データ読み込み
     ArrayList<Match> matches = MaMapper.selectAllMatches();
     model.addAttribute("matchinfo", matches);
-    model.addAttribute("mymonsterhp", matchinfo.getMymonsterhp());
-    model.addAttribute("enemymonsterhp", matchinfo.getEnemymonsterhp());
+    model.addAttribute("p1monsterhp", matchinfo.getP1monsterhp());
+    model.addAttribute("p2monsterhp", matchinfo.getP2monsterhp());
     model.addAttribute("skill", skill);
 
     return "wait.html";

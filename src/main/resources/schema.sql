@@ -1,7 +1,7 @@
 /* userやgroupといった名前はSQLでは予約語で使えないため，userNameとしていることに注意 */
 CREATE TABLE monsterbox (
     id IDENTITY,
-    monsterName VARCHAR NOT NULL,
+    monstername VARCHAR NOT NULL,
     hp INT,
     attack INT,
     defence INT,
@@ -12,27 +12,29 @@ CREATE TABLE monsterbox (
 );
 
 CREATE TABLE result (
-    mymonsterName VARCHAR NOT NULL ,
-    enemymonsterName VARCHAR NOT NULL ,
+    p1monstername VARCHAR NOT NULL ,
+    p2monstername VARCHAR NOT NULL ,
     matchresult VARCHAR NOT NULL
 );
 
 CREATE TABLE userInfo (
     id IDENTITY,
-    userName VARCHAR NOT NULL
+    username VARCHAR NOT NULL
 );
 
 CREATE TABLE matchInfo (
     id IDENTITY,
-    mymonsterid INT,
-    mymonsterhp INT,
+    p1name VARCHAR,
+    p1monsterid INT,
+    p1monsterhp INT,
     skill VARCHAR,
-    enemymonsterid INT,
-    enemymonsterhp INT,
+    p2name VARCHAR,
+    p2monsterid INT,
+    p2monsterhp INT,
     damage INT
 );
 
 CREATE TABLE skill (
-    skillName VARCHAR,
+    skillname VARCHAR,
     damage INT
 );

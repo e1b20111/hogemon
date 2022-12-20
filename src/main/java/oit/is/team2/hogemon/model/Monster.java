@@ -2,7 +2,7 @@ package oit.is.team2.hogemon.model;
 
 public class Monster {
   int id;
-  String monsterName;
+  String monstername;
   int hp;
   int attack;
   int defence;
@@ -19,12 +19,12 @@ public class Monster {
     this.id = id;
   }
 
-  public String getMonsterName() {
-    return monsterName;
+  public String getMonstername() {
+    return monstername;
   }
 
-  public void setMonsterName(String monsterName) {
-    this.monsterName = monsterName;
+  public void setMonstername(String monstername) {
+    this.monstername = monstername;
   }
 
   public int getHp() {

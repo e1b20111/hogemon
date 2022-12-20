@@ -13,7 +13,7 @@ public interface SkillMapper {
   @Select("SELECT * from skill;")
   ArrayList<Skill> selectAllSkills();
 
-  @Select("SELECT * from skill where skillName =#{skillName};")
-  Skill selectSkillByName(String skillName);
+  @Select("SELECT * from skill where skillname =#{skillname};")
+  Skill selectSkillByname(String skillname);
 
 }

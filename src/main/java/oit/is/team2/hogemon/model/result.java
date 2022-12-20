@@ -2,18 +2,16 @@ package oit.is.team2.hogemon.model;
 
 public class result {
 
-  String mymonsterName;
-  String enemymonsterName;
+  String p1monstername;
+  String p2monstername;
   String matchresult;
 
-  
-
-  public String getEnemymonsterName() {
-    return enemymonsterName;
+  public String getP2monstername() {
+    return p2monstername;
   }
 
-  public void setEnemymonsterName(String enemymonsterName) {
-    this.enemymonsterName = enemymonsterName;
+  public void setP2monstername(String p2monstername) {
+    this.p2monstername = p2monstername;
   }
 
   public String getMatchresult() {
@@ -24,12 +22,12 @@ public class result {
     this.matchresult = matchresult;
   }
 
-  public String getMymonsterName() {
-    return mymonsterName;
+  public String getP1monstername() {
+    return p1monstername;
   }
 
-  public void setMymonsterName(String mymonsterName) {
-    this.mymonsterName = mymonsterName;
+  public void setP1monstername(String p1monstername) {
+    this.p1monstername = p1monstername;
   }
 
 }

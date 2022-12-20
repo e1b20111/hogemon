@@ -9,13 +9,13 @@
 <body>
   <font size="20">戦闘画面</font><br>
 
-  <div th:if="${myuser}">
-    <div th:if="${enemyuser}">
-      [[${myuser}]] VS [[${enemyuser.userName}]]
+  <div th:if="${p1user}">
+    <div th:if="${p2user}">
+      [[${p1user}]] VS [[${p2user.username}]]
     </div>
   </div>
 
-  <div th:if="${mymonster}">
+  <div th:if="${p1monster}">
     <table border="1">
       <thead>
         <th>手持ちモンスター名</th>
@@ -23,23 +23,23 @@
         <th>ATK</th>
         <th>DEF</th>
       </thead>
-      <tr th:each="mymonster,stat:${mymonster}">
-        <td>[[${mymonster.monsterName}]]</td>
-        <td>[[${mymonster.hp}]]</td>
-        <td>[[${mymonster.attack}]]</td>
-        <td>[[${mymonster.defence}]]</td>
+      <tr th:each="p1monster,stat:${p1monster}">
+        <td>[[${p1monster.monstername}]]</td>
+        <td>[[${p1monster.hp}]]</td>
+        <td>[[${p1monster.attack}]]</td>
+        <td>[[${p1monster.defence}]]</td>
       </tr>
       </tbody>
     </table>
   </div>
 
-  <div th:if="${mymonster}">
+  <div th:if="${p1monster}">
     <table border="1">
-      <tr th:each="mymonster,stat:${mymonster}">
-        <td><a th:href="@{/wait(skillName=${mymonster.skill1})}">[[${mymonster.skill1}]]</a></td>
-        <td><a th:href="@{/wait(skillName=${mymonster.skill2})}">[[${mymonster.skill2}]]</a></td>
-        <td><a th:href="@{/wait(skillName=${mymonster.skill3})}">[[${mymonster.skill3}]]</a></td>
-        <td><a th:href="@{/wait(skillName=${mymonster.skill4})}">[[${mymonster.skill4}]]</a></td>
+      <tr th:each="p1monster,stat:${p1monster}">
+        <td><a th:href="@{/wait(skillname=${p1monster.skill1})}">[[${p1monster.skill1}]]</a></td>
+        <td><a th:href="@{/wait(skillname=${p1monster.skill2})}">[[${p1monster.skill2}]]</a></td>
+        <td><a th:href="@{/wait(skillname=${p1monster.skill3})}">[[${p1monster.skill3}]]</a></td>
+        <td><a th:href="@{/wait(skillname=${p1monster.skill4})}">[[${p1monster.skill4}]]</a></td>
       </tr>
     </table>
   </div>
