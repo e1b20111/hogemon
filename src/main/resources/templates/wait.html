@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <div th:if="${matchinfo}">
+  <div th:if="${p1matchinfo}">
     <font size="20">戦闘画面</font><br>
   </div>
 
@@ -25,15 +25,17 @@
   </div>
 
 
-  <div th:if="${matchinfo}">
+  <div th:if="${p1matchinfo}">
     <font size="5">途中経過</font><br>
-    <div th:each="matchinfo,stat:${matchinfo}">
-      <td>[[${p1monster.monstername}]]の[[${matchinfo.skill}]]
-        [[${p2monster.monstername}]]に[[${matchinfo.damage}]]のダメージ</td>
+    <div th:each="p1matchinfo,stat:${p1matchinfo}">
+      <td>[[${p1monster.monstername}]]の[[${p1matchinfo.skill}]]
+        [[${p2monster.monstername}]]に[[${p1matchinfo.damage}]]のダメージ</td>
+      <td>[[${p2monster.monstername}]]の[[${p2matchinfo.skill}]]
+        [[${p1monster.monstername}]]に[[${p2matchinfo.damage}]]のダメージ</td>
     </div>
   </div>
 
-  <div th:if="${matchinfo}">
+  <div th:if="${p1matchinfo}">
     <table border="1">
       <thead>
         <th>手持ちモンスター名</th>
@@ -50,7 +52,7 @@
   </div>
 
   <!-- 値の変化を見るための敵モンスター情報 -->
-  <div th:if="${matchinfo}">
+  <div th:if="${p1matchinfo}">
     <table border="1">
       <thead>
         <th>敵モンスター名</th>
@@ -66,7 +68,7 @@
     </table>
   </div>
 
-  <div th:if="${matchinfo}">
+  <div th:if="${p1matchinfo}">
     <table border="1">
       <tr th:each="p1monster,stat:${p1monster}">
         <td><a th:href="@{/wait(skillname=${p1monster.skill1})}">[[${p1monster.skill1}]]</a></td>
