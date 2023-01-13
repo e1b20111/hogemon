@@ -10,6 +10,15 @@ public class Match {
   int p2monsterid;
   int p2monsterhp;
   int damage;
+  String attackplayer;
+
+  public String getAttackplayer() {
+    return attackplayer;
+  }
+
+  public void setAttackplayer(String attackplayer) {
+    this.attackplayer = attackplayer;
+  }
 
   public int getId() {
     return id;

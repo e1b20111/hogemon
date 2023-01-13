@@ -99,8 +99,8 @@ public class HogemonController {
   }
 
   @GetMapping("wait")
-  public String wait(@RequestParam String skillname, ModelMap model) {
-
+  public String wait(@RequestParam String skillname, ModelMap model,Principal prin) {
+    String loginuser = prin.getName(); // ログインユーザ情報
     // Mapperが多くてややこしいが、要はmatchinfoのid=1での二つ(p1とp2)のmonster情報を呼び出してくる処理
     // matchinfoとmonsterの区別をするために別の変数とする。
     // monster情報のため、match中には変更しない。
@@ -116,6 +116,7 @@ public class HogemonController {
 
     // 最新のデータ取得
     Match matchinfo = MaMapper.selectLastData();
+    matchinfo.setAttackplayer(matchinfo.getP1name());
     // 初回のみmatchinfoのid=1のデータを更新する。2回目以降はinsertしていく。
     if (MaMapper.selectFirstSkill() == null) {
       MaMapper.updateFirstDamage(skillname, skill.getDamage());
@@ -155,8 +156,10 @@ public class HogemonController {
     }
 
     // データ更新ないしは追加後、試合データ読み込み
-    ArrayList<Match> matches = MaMapper.selectAllMatches();
-    model.addAttribute("matchinfo", matches);
+    ArrayList<Match> p1matches = MaMapper.selectAllMatches();
+    ArrayList<Match> p2matches = MaMapper.selectAllMatches();
+    model.addAttribute("p1matchinfo", p1matches);
+    model.addAttribute("p2matchinfo", p2matches);
     model.addAttribute("p1monsterhp", matchinfo.getP1monsterhp());
     model.addAttribute("p2monsterhp", matchinfo.getP2monsterhp());
     model.addAttribute("skill", skill);
@@ -186,6 +189,7 @@ public class HogemonController {
         break;
     }
     lastdata.setP1monsterhp(lastdata.getP1monsterhp() - skill.getDamage());
+    lastdata.setAttackplayer("CPU");
     lastdata.setDamage(skill.getDamage());
     lastdata.setSkill(skill.getSkillname());
     MaMapper.insertMatch(lastdata);

@@ -45,7 +45,7 @@ public interface MatchMapper {
   String selectFirstSkill();
 
   // 試合情報が格納されたmatch型のデータを追加する。なお、matchidは自動生成され、自動的に振り分けられるようにする。
-  @Insert("INSERT INTO matchInfo (p1name,p1monsterid,p1monsterhp,skill, p2name, p2monsterid,p2monsterhp, damage) VALUES (#{p1name}, #{p1monsterid},#{p1monsterhp},#{skill},#{p2name}, #{p2monsterid},#{p2monsterhp},#{damage});")
+  @Insert("INSERT INTO matchInfo (p1name,p1monsterid,p1monsterhp,skill, p2name, p2monsterid,p2monsterhp, damage, attackplayer) VALUES (#{p1name}, #{p1monsterid},#{p1monsterhp},#{skill},#{p2name}, #{p2monsterid},#{p2monsterhp},#{damage},#{attackplayer});")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertMatch(Match match);
 
@@ -61,4 +61,9 @@ public interface MatchMapper {
   @Insert("INSERT INTO matchInfo (id,p1monsterid,p2monsterid,p1monsterhp,p2monsterhp,damage) VALUES (1,0,2,0,20,0);")
   void insertTest();
 
+  @Select("SELECT * from matchInfo where attackplayer = 'p1';")
+  Match selectP1Match();
+
+  @Select("SELECT * from matchInfo where attackplayer = 'p2';")
+  Match selectP2Match();
 }

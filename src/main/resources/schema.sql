@@ -31,7 +31,8 @@ CREATE TABLE matchInfo (
     p2name VARCHAR,
     p2monsterid INT,
     p2monsterhp INT,
-    damage INT
+    damage INT,
+    attackplayer VARCHAR
 );
 
 CREATE TABLE skill (
