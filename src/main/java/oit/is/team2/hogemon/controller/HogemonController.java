@@ -72,6 +72,7 @@ public class HogemonController {
     room.addUser(cpu);
     User myuser = UMapper.selectUserByName(user);
     room.addUser(myuser);
+    model.addAttribute("myuser", user);
     model.addAttribute("user", room.getUsers());
     return "battle.html";
   }
@@ -98,6 +99,7 @@ public class HogemonController {
     room.addUser(cpu);
     User myuser = UMapper.selectUserByName(user);
     room.addUser(myuser);
+    model.addAttribute("myuser", user);
     model.addAttribute("user", room.getUsers());
     model.addAttribute("monster", monster);
     return "battle.html";
@@ -153,15 +155,15 @@ public class HogemonController {
     P1result.setP1monstername(p1monster.getMonstername());
     P1result.setP2monstername(p2monster.getMonstername());
 
-    if (matchinfo.getP1monsterhp() <= 0) {
-      P1result.setMatchresult("LOSE");
+    if (matchinfo.getP2monsterhp() <= 0) {
+      P1result.setMatchresult("Win");
       RMapper.insertResult(P1result);
       model.addAttribute("gameend", P1result);
       return "wait.html";
     }
 
-    if (matchinfo.getP2monsterhp() <= 0) {
-      P1result.setMatchresult("Win");
+    if (matchinfo.getP1monsterhp() <= 0) {
+      P1result.setMatchresult("LOSE");
       RMapper.insertResult(P1result);
       model.addAttribute("gameend", P1result);
       return "wait.html";
@@ -177,9 +179,10 @@ public class HogemonController {
   }
 
   @GetMapping("batreq")
-  public SseEmitter BattleRequest() {
+  public SseEmitter BattleRequest(Principal prin) {
+    String user = prin.getName();
     final SseEmitter sseEmitter = new SseEmitter();
-    this.match.asyncShowMatches(sseEmitter);
+    this.match.asyncShowBattleRequest(sseEmitter, user);
     return sseEmitter;
   }
 

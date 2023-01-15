@@ -150,15 +150,46 @@ public class AsyncMatch {
     dbUpdated = true;
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.01s休み
+        // DBが更新されていなければ0.1s休み
         if (false == dbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(10);
+          TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
         // DBが更新されていれば更新後のフルーツリストを取得してsendし，0.01s休み，dbUpdatedをfalseにする
         ArrayList<Match> matches = this.syncShowMatches();
         emitter.send(matches);
-        TimeUnit.MILLISECONDS.sleep(10);
+
+        TimeUnit.MILLISECONDS.sleep(100);
+        dbUpdated = false;
+      }
+    } catch (Exception e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+    System.out.println("asyncShowMatches complete");
+  }
+
+  @Async
+  public void asyncShowBattleRequest(SseEmitter emitter, String pname) {
+
+    dbUpdated = true;
+    try {
+      while (true) {// 無限ループ
+        // DBが更新されていなければ0.1s休み
+        if (false == dbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(100);
+          continue;
+        }
+        // DBが更新されていれば更新後のフルーツリストを取得してsendし，0.01s休み，dbUpdatedをfalseにする
+        ArrayList<Match> matches = this.syncShowMatches();
+        Match lastmatch = MaMapper.selectLastData();
+        if (lastmatch.getP2name().equals(pname)) {
+          emitter.send(matches);
+        }
+        // emitter.send(matches);
+        TimeUnit.MILLISECONDS.sleep(100);
         dbUpdated = false;
       }
     } catch (Exception e) {

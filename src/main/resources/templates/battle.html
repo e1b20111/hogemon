@@ -15,9 +15,9 @@
         var m_p2name = matches[0].p2name;
 
         if (m_p2name) {
-          var reqfont = m_p1name + "から対戦申請が来ています。<br>対戦するならばモンスターを選択できているのを確認後、エントリーしてください<br>";
+          var reqfont = m_p1name + "から対戦申請が来ています。<br>対戦するならばモンスターを選択できているかどうかを確認後、エントリーしてください<br>";
           var request = document.getElementById("request");
-          request.innerHTML = reqfont.fontsize(10);
+          request.innerHTML = reqfont.fontsize(0.5);
         }
       }
     }
@@ -72,8 +72,10 @@
   <font size=20px>エントリー</font><br>
   <div th:if="${monster}">
     <tr th:each="user,stat:${user}">
-      <a th:href="@{/match(monsterId=${monster.id},userId=${user.id})}"> [[${user.username}]] </a>
-      <br>
+      <div th:if="${user.username != myuser}">
+        <a th:href="@{/match(monsterId=${monster.id},userId=${user.id})}">
+          [[${user.username}]] </a><br>
+      </div>
     </tr>
   </div>
 
