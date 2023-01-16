@@ -39,5 +39,5 @@ CREATE TABLE matchInfo (
 
 CREATE TABLE skill (
     skillname VARCHAR,
-    damage INT
+    damage NUMERIC(6,1)
 );

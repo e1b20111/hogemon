@@ -32,39 +32,31 @@ public class HogemonAuthConfiguration {
     UserDetails user1 = users
         .username("user1")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("USER", "MANAGER")
+        .roles("USER")
         .build();
     UserDetails user2 = users
         .username("user2")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
         .roles("USER")
         .build();
-    UserDetails admin = users
-        .username("admin")
+    UserDetails user3 = users
+        .username("user3")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("ADMIN")
+        .roles("USER")
         .build();
-    // $ sshrun htpasswd -nbBC 10 customer1 p@ss
-    UserDetails customer1 = users
-        .username("customer1")
+    UserDetails user4 = users
+        .username("user4")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("CUSTOMER")
+        .roles("USER")
         .build();
-    // $ sshrun htpasswd -nbBC 10 customer2 p@ss
-    UserDetails customer2 = users
-        .username("customer2")
+    UserDetails jacson = users
+        .username("ジャクソン")
         .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("CUSTOMER")
-        .build();
-    // $ sshrun htpasswd -nbBC 10 seller p@ss
-    UserDetails seller = users
-        .username("seller")
-        .password("$2y$10$ngxCDmuVK1TaGchiYQfJ1OAKkd64IH6skGsNw1sLabrTICOHPxC0e")
-        .roles("SELLER")
+        .roles("USER")
         .build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
-    return new InMemoryUserDetailsManager(user1, user2, admin, customer1, customer2, seller);
+    return new InMemoryUserDetailsManager(user1, user2, user3, user4, jacson);
   }
 
   /**

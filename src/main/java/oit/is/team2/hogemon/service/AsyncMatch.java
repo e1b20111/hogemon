@@ -51,15 +51,31 @@ public class AsyncMatch {
     // 最新のデータ取得
     Match matchinfo = MaMapper.selectLastData();
     matchinfo.setAttackp(pname);
+    int damage = 0;
+    Random rand = new Random();
+    int damrand = rand.nextInt(4);
+    Monster p1monster = MMapper.selectMonsterById(matchinfo.getP1monsterid());
+    Monster p2monster = MMapper.selectMonsterById(matchinfo.getP2monsterid());
+    // 1Pのダメージ処理
     // 初手が1Pの時の処理
     if (matchinfo.getP1name().equals(pname)) {
       // 初回のみmatchinfoのid=1のデータを更新する。2回目以降はinsertしていく。
       if (matchinfo.getDamage() == 0) {
-        MaMapper.updateFirstDamage(skillname, skill.getDamage(), pname);
+        if (skill.getDamage() < 1) {
+          damage = (int) (p1monster.getAttack() * skill.getDamage() + damrand);
+        } else {
+          damage = (int) (p1monster.getAttack() + (int) skill.getDamage() - (p2monster.getDefence() / 2) + damrand);
+        }
+        MaMapper.updateFirstDamage(skillname, damage, pname);
       } else {
         // ダメージとスキル値とHPの更新と追加
-        matchinfo.setDamage(skill.getDamage());
-        matchinfo.setP2monsterhp(matchinfo.getP2monsterhp() - skill.getDamage());
+        if (skill.getDamage() < 1) {
+          damage = (int) (p1monster.getAttack() * skill.getDamage() + damrand);
+        } else {
+          damage = (int) (p1monster.getAttack() + (int) skill.getDamage() - (p2monster.getDefence() / 2) + damrand);
+        }
+        matchinfo.setDamage(damage);
+        matchinfo.setP2monsterhp(matchinfo.getP2monsterhp() - damage);
         matchinfo.setSkill(skillname);
         MaMapper.insertMatch(matchinfo);
       }
@@ -67,11 +83,21 @@ public class AsyncMatch {
     } else if (matchinfo.getP2name().equals(pname)) {
       // 初回のみmatchinfoのid=1のデータを更新する。2回目以降はinsertしていく。
       if (matchinfo.getDamage() == 0) {
-        MaMapper.updateFirstDamageByP2(skillname, skill.getDamage(), pname);
+        if (skill.getDamage() < 1) {
+          damage = (int) (p2monster.getAttack() * skill.getDamage() + damrand);
+        } else {
+          damage = (int) (p2monster.getAttack() + (int) skill.getDamage() - (p1monster.getDefence() / 2) + damrand);
+        }
+        MaMapper.updateFirstDamageByP2(skillname, damage, pname);
       } else {
+        if (skill.getDamage() < 1) {
+          damage = (int) (p2monster.getAttack() * skill.getDamage() + damrand);
+        } else {
+          damage = (int) (p1monster.getAttack() + (int) skill.getDamage() - (p2monster.getDefence() / 2) + damrand);
+        }
         // ダメージとスキル値とHPの更新と追加
-        matchinfo.setDamage(skill.getDamage());
-        matchinfo.setP1monsterhp(matchinfo.getP1monsterhp() - skill.getDamage());
+        matchinfo.setDamage(damage);
+        matchinfo.setP1monsterhp(matchinfo.getP1monsterhp() - damage);
         matchinfo.setSkill(skillname);
         MaMapper.insertMatch(matchinfo);
       }
@@ -94,8 +120,10 @@ public class AsyncMatch {
   // CPUとの対戦処理
   public void battlCPU() {
     Match lastdata = MaMapper.selectLastData();
+    Monster p1monster = MMapper.selectMonsterById(lastdata.getP1monsterid());
     Monster CPUmonster = MMapper.selectMonsterById(lastdata.getP2monsterid());
     Skill skill = new Skill();
+    int damage = 0;
     // CPU側の処理
     Random rand = new Random();
     int num = rand.nextInt(4);
@@ -113,8 +141,15 @@ public class AsyncMatch {
         skill = SMapper.selectSkillByName(CPUmonster.getSkill4());
         break;
     }
-    lastdata.setP1monsterhp(lastdata.getP1monsterhp() - skill.getDamage());
-    lastdata.setDamage(skill.getDamage());
+    Random drand = new Random();
+    int damrand = drand.nextInt(4);
+    if (skill.getDamage() < 1) {
+      damage = (int) (CPUmonster.getAttack() * skill.getDamage() + damrand);
+    } else {
+      damage = (int) (CPUmonster.getAttack() + (int) skill.getDamage() - (p1monster.getDefence() / 2) + damrand);
+    }
+    lastdata.setP1monsterhp(lastdata.getP1monsterhp() - damage);
+    lastdata.setDamage(damage);
     lastdata.setSkill(skill.getSkillname());
     lastdata.setAttackp("CPU");
     MaMapper.insertMatch(lastdata);
@@ -150,15 +185,46 @@ public class AsyncMatch {
     dbUpdated = true;
     try {
       while (true) {// 無限ループ
-        // DBが更新されていなければ0.01s休み
+        // DBが更新されていなければ0.1s休み
         if (false == dbUpdated) {
-          TimeUnit.MILLISECONDS.sleep(10);
+          TimeUnit.MILLISECONDS.sleep(100);
           continue;
         }
         // DBが更新されていれば更新後のフルーツリストを取得してsendし，0.01s休み，dbUpdatedをfalseにする
         ArrayList<Match> matches = this.syncShowMatches();
         emitter.send(matches);
-        TimeUnit.MILLISECONDS.sleep(10);
+
+        TimeUnit.MILLISECONDS.sleep(100);
+        dbUpdated = false;
+      }
+    } catch (Exception e) {
+      // 例外の名前とメッセージだけ表示する
+      logger.warn("Exception:" + e.getClass().getName() + ":" + e.getMessage());
+    } finally {
+      emitter.complete();
+    }
+    System.out.println("asyncShowMatches complete");
+  }
+
+  @Async
+  public void asyncShowBattleRequest(SseEmitter emitter, String pname) {
+
+    dbUpdated = true;
+    try {
+      while (true) {// 無限ループ
+        // DBが更新されていなければ0.1s休み
+        if (false == dbUpdated) {
+          TimeUnit.MILLISECONDS.sleep(100);
+          continue;
+        }
+        // DBが更新されていれば更新後のフルーツリストを取得してsendし，0.01s休み，dbUpdatedをfalseにする
+        ArrayList<Match> matches = this.syncShowMatches();
+        Match lastmatch = MaMapper.selectLastData();
+        if (lastmatch.getP2name().equals(pname)) {
+          emitter.send(matches);
+        }
+        // emitter.send(matches);
+        TimeUnit.MILLISECONDS.sleep(100);
         dbUpdated = false;
       }
     } catch (Exception e) {
